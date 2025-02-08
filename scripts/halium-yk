@@ -63,6 +63,9 @@ luks_cust_device() {
         # Disable touchscreen
 	halium_hook teardown_touchscreen
 
+	# Run plymouth again
+	/scripts/init-premount/plymouth
+
         # Check for lvm in luks volume
         ##cust_vg_name="$(pvscan | grep "${luks_dev_name}_crypt" | awk '{print $4}')"
         ##if [ -n "${cust_vg_name}" ]; then
