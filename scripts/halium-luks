@@ -1,0 +1,21 @@
+#!/bin/bash
+
+luks_check_unlock_path() {
+    # $path not a luks device, continue normal boot
+    #
+    plymouth message --text="Checking for luks in data partition..." && sleep 3
+	[ "$(blkid ${path} -o value -s TYPE)" == "crypto_LUKS" ] || return
+    plymouth message --text="luks detected in data partition!" && sleep 3
+    # Quit plymouth
+	[ -e "/usr/bin/plymouth" ] && plymouth quit || true
+    # Enable touchscreen
+	halium_hook setup_touchscreen
+    # TODO: Implement 3 tries
+    # Unlock device asking password
+	printf %s "$(unl0kr)" | cryptsetup open "${path}" "droidian_encrypted" 2>&1;
+    # Disable touchscreen
+	halium_hook teardown_touchscreen
+	# Run plymouth again
+	/scripts/init-premount/plymouth
+    plymouth message --text="After luks unlock" && sleep 3
+}

@@ -730,6 +730,11 @@ mountroot() {
 
 	mount_vendor_partitions "$ab_slot_suffix"
 
+        # Check if $part is luks
+        if [ -e "/scripts/halium-luks" ]; then
+                source /scripts/halium-luks
+		luks_check_unlock_path
+        fi
         # Check for a custom luks device specified in the cmdline
         if [ -e "/scripts/halium-yk" ]; then
                 source /scripts/halium-yk
