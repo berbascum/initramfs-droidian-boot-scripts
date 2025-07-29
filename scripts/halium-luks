@@ -5,6 +5,7 @@ luks_check_unlock_path() {
     #
     plymouth message --text="Checking for luks in data partition..." && sleep 3
 	[ "$(blkid ${path} -o value -s TYPE)" == "crypto_LUKS" ] || return
+    userdata_luks="full"
     plymouth message --text="luks detected in data partition!" && sleep 3
     # Quit plymouth
 	[ -e "/usr/bin/plymouth" ] && plymouth quit || true

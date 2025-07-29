@@ -586,6 +586,8 @@ signal_root_move_done() {
 
 	# No need to do this if the system is already encrypted
 	[ -e /run/droidian-encryption-helper.pid ] || return
+	# No need to do this if userdata_luks="full"
+	[ "${userdata_luks}" == "full" ] && return
 
 	touch /run/halium-mounted
 	count=0
