@@ -770,13 +770,13 @@ mountroot() {
 			esac
 		done
 	fi
-
 	if [ "${use_lvm}" == "yes" ]; then
 		# Set default search vgs and root_lv
 		[ -z "${search_vg}" ] && search_vg="droidian sailfish"
 		[ -z "${root_lv}" ] && root_lv="droidian-rootfs"
 		[ -z "${reserved_lv}" ] && reserved_lv="droidian-reserved"
 		[ -z "${persistent_lv}" ] && persistent_lv="droidian-persistent"
+	plymouth message --text="Booting from root_lv=\"$root_lv\"" && sleep 2
 
 		for try in 1 2 3 4 5; do
 			lvm vgscan --mknodes
